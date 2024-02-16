@@ -4,12 +4,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def calculate_delivery_price(request):
-    if request.method == 'POST':
-        data = request.POST
-        zone = data.get('zone')
-        organization_id = data.get('organization_id')
-        total_distance_str = data.get('total_distance')
-        item_type = data.get('item_type')
+    if request.method == 'GET':
+        # Retrieving data from query parameters instead of POST data
+        zone = request.GET.get('zone')
+        organization_id = request.GET.get('organization_id')
+        total_distance_str = request.GET.get('total_distance')
+        item_type = request.GET.get('item_type')
         
         if not (zone and organization_id and total_distance_str and item_type):
             missing_params = []
@@ -37,4 +37,4 @@ def calculate_delivery_price(request):
         formatted_price = round(total_price, 1)
         return JsonResponse({'total_price': formatted_price})
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'error': 'Only GET requests are allowed'}, status=405)
