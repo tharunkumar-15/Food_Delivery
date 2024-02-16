@@ -14,8 +14,7 @@ SECRET_KEY = os.environ.get("")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ['django-food-delivery.onrender.com', 'localhost', '127.0.0.1']
-
+ALLOWED_HOSTS = ['dpg-cn7djtqcn0vc738ud5kg-a.oregon-postgres.render.com']
 # Application definition
 
 INSTALLED_APPS = [
