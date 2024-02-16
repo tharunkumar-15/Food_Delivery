@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'food_delivery',
     'pricing',
     'drf_yasg',
+    'dj_database_url'
 ]
 
 SWAGGER_SETTINGS = {
