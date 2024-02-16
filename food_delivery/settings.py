@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-su=)4couy3f#=q)rmgo^@*mr^=g6xbof-_*x74t9jpbr=v@b@u'
+SECRET_KEY = os.environ.ger("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -86,14 +86,14 @@ WSGI_APPLICATION = 'food_delivery.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+database_url=os.environ.get("DATABASE_URL")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'food_delivery_app1_veig',
         'USER': 'food_delivery_app1_veig_user',
         'PASSWORD': 'EOyr9NmIGsKRcYGmYe9FmXOfgpOlAdO5',
-        'HOST': 'dpg-cn7djtqcn0vc738ud5kg-a.oregon-postgres.render.com',
+        'HOST': database_url,
         'PORT': '5432',
     },
 }
