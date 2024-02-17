@@ -7,12 +7,12 @@ from rest_framework.routers import DefaultRouter
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Your API Title",
+      title="Food_Delivery",
       default_version='v1',
-      description="Your API description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@yourdomain.com"),
-      license=openapi.License(name="BSD License"),
+      description="Food_Delivery_Calculator",
+      terms_of_service="https://www.food_delivery.com/policies/terms/",
+      contact=openapi.Contact(email="food_delivery@yourdomain.com"),
+      license=openapi.License(name="food delivery License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),

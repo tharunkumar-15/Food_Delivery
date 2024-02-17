@@ -2,9 +2,24 @@ from django.http import JsonResponse
 from .services import PriceCalculator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Pricing, Organization
-from django.http import JsonResponse
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from rest_framework.decorators import api_view
 
 @csrf_exempt
+@swagger_auto_schema(method='GET', 
+    operation_description="Calculate delivery price based on zone, organization, total distance, and item type.",
+    manual_parameters=[
+        openapi.Parameter('zone', openapi.IN_QUERY, description="Delivery zone", type=openapi.TYPE_STRING),
+        openapi.Parameter('organization_id', openapi.IN_QUERY, description="Organization ID", type=openapi.TYPE_INTEGER),
+        openapi.Parameter('total_distance', openapi.IN_QUERY, description="Total distance in kilometers", type=openapi.TYPE_INTEGER),
+        openapi.Parameter('item_type', openapi.IN_QUERY, description="Type of item (perishable or non-perishable)", type=openapi.TYPE_STRING),
+    ],
+    responses={200: openapi.Response('Successful response', schema=openapi.Schema(type="object", properties={'total_price': openapi.Schema(type="number", description="Total price")})),
+        400: openapi.Response('Bad Request', schema=openapi.Schema(type="object", properties={'error': openapi.Schema(type="string", description="Error message")})),
+        404: openapi.Response('Not Found', schema=openapi.Schema(type="object", properties={'error': openapi.Schema(type="string", description="Error message")}))
+    })
+@api_view(['GET'])
 def calculate_delivery_price(request):
     if request.method == 'GET':
         zone = request.GET.get('zone')
