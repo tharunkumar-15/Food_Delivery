@@ -49,9 +49,14 @@
 
 #### Error Handling:
 
+I have separate folder caled tests which contains test cases for models, views and urls.
+
+To check that you should run ```python manage.py test pricing.tests```
+
 - **400 Bad Request:** This error occurs when the required parameters are missing or contain invalid values. The response contains an error message indicating the missing or invalid parameters.
 - **404 Not Found:** This error occurs when the pricing information is not found based on the provided parameters. The response contains an error message indicating that the pricing information is not found.
 - **405 Method Not Allowed:** This error occurs when a request method other than GET is used. The response contains an error message indicating that only GET requests are allowed.
+
 
 #### Additional Notes:
 
