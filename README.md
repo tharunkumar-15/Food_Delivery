@@ -66,8 +66,7 @@ To check that you should run ```python manage.py test pricing.tests```
 - The API provides comprehensive unit tests in `testview.py` and `testmodels.py` to ensure the functionality and reliability of the endpoints and models.
 
 
-
-
+### Swagger page link : http://127.0.0.1:8000/pricing/swagger/
 
 
 ### Setup Guide
