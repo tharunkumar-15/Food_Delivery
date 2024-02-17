@@ -134,6 +134,7 @@ USE_TZ = True
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Adjust STATIC_ROOT for deployment URL
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
