@@ -43,9 +43,6 @@ INSTALLED_APPS = [
     'drf_yasg',
 ]
 
-SWAGGER_SETTINGS = {
-  'USE_SESSION_AUTH': False
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
