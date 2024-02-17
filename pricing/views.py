@@ -1,11 +1,12 @@
 from django.http import JsonResponse
 from .services import PriceCalculator
 from django.views.decorators.csrf import csrf_exempt
+from .models import Pricing, Organization
+from django.http import JsonResponse
 
 @csrf_exempt
 def calculate_delivery_price(request):
     if request.method == 'GET':
-        # Retrieving data from query parameters instead of POST data
         zone = request.GET.get('zone')
         organization_id = request.GET.get('organization_id')
         total_distance_str = request.GET.get('total_distance')
@@ -24,15 +25,27 @@ def calculate_delivery_price(request):
             return JsonResponse({'error': f'Required parameters are missing: {", ".join(missing_params)}.'}, status=400)
 
         try:
-            total_distance = int(total_distance_str)  # Convert total_distance to integer
+            total_distance = int(total_distance_str)
         except ValueError:
             return JsonResponse({'error': 'Invalid value for total_distance. Please provide a valid integer value.'}, status=400)
 
-        total_price = PriceCalculator.calculate_total_price(zone, organization_id, total_distance, item_type)
-        print("total_price:", total_price)
+        try:
+            organization = Organization.objects.get(pk=organization_id)
+            pricings = Pricing.objects.filter(zone=zone, organization_id=organization_id, item__type=item_type)
+            if pricings.exists():
+                pricing = pricings.first()
+            else:
+                raise Pricing.DoesNotExist
+        except Organization.DoesNotExist:
+            return JsonResponse({'error': 'Organization not found'}, status=404)
+        except Pricing.DoesNotExist:
+            return JsonResponse({'error': 'Pricing information for the specified organization and item type not found'}, status=404)
+
+
+        total_price = PriceCalculator.calculate_total_price(zone, organization.id, total_distance, item_type)
         
-        if isinstance(total_price, str):
-            return JsonResponse({'error': total_price}, status=404)
+        if total_price is None:
+            return JsonResponse({'error': 'Pricing information not found'}, status=404)
         
         formatted_price = round(total_price, 1)
         return JsonResponse({'total_price': formatted_price})
