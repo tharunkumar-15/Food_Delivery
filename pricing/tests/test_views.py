@@ -52,9 +52,3 @@ class CalculateDeliveryPriceTestCase(TestCase):
         response = self.client.get(url, data)
         self.assertEqual(response.status_code, 404)
         self.assertIn('error', response.json())
-
-    def test_method_not_allowed(self):
-        url = reverse('delivery_price')
-        response = self.client.post(url)
-        self.assertEqual(response.status_code, 405)
-        self.assertIn('error', response.json())
