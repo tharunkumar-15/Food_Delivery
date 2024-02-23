@@ -28,6 +28,11 @@ def calculate_delivery_price(request):
         total_distance_str = request.GET.get(TOTAL_DISTANCE)
         item_type = request.GET.get(ITEM_TYPE)
         
+        zone = zone.lower() if zone else None
+        organization_id = organization_id.lower() if organization_id else None
+        total_distance_str = total_distance_str.lower() if total_distance_str else None
+        item_type = item_type.lower() if item_type else None
+        
         if not (zone and organization_id and total_distance_str and item_type):
             missing_params = []
             if not zone:
@@ -69,7 +74,3 @@ def calculate_delivery_price(request):
         return JsonResponse({'total_price': formatted_price})
     else:
         return JsonResponse({'error': 'Only GET requests are allowed'}, status=405)
-
-
-
-    
